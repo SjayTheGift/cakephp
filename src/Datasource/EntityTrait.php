@@ -1059,29 +1059,48 @@ trait EntityTrait
     }
 
     /**
+     * Set fields as invalid and not patchable into the entity.
+     *
+     * This is useful for batch operations when one needs to get the original value for an error message after patching.
+     * This value could not be patched into the entity and is simply copied into the _invalid property for debugging purposes
+     * or to be able to log it away.
+     *
+     * @param array $fields The values to set.
+     * @param mixed|null $overwriteValue The invalid value to be set for $fields.
+     * @param bool $overwrite Whether or not to overwrite pre-existing values for $field.
+     * @return $this
+     */
+    public function setInvalid(array $fields, $overwriteValue = null, $overwrite = false)
+    {
+        foreach ($fields as $field => $value) {
+            if ($overwrite === true) {
+                $this->_invalid[$field] = $overwriteValue;
+                continue;
+            }
+            $this->_invalid += [$field => $value];
+        }
+
+        return $this;
+    }
+
+    /**
      * Sets a field as invalid and not patchable into the entity.
      *
      * This is useful for batch operations when one needs to get the original value for an error message after patching.
      * This value could not be patched into the entity and is simply copied into the _invalid property for debugging purposes
      * or to be able to log it away.
      *
-     * @param string|array $field The value to set.
+     * @param string $field The value to set.
      * @param mixed|null $value The invalid value to be set for $field.
      * @param bool $overwrite Whether or not to overwrite pre-existing values for $field.
      * @return $this
      */
-    public function setInvalid($field, $value = null, $overwrite = false)
+    public function setInvalidField($field, $value = null, $overwrite = false)
     {
-        if (!is_array($field)) {
-            $field = [$field => $value];
-        }
-
-        foreach ($field as $f => $value) {
-            if ($overwrite) {
-                $this->_invalid[$f] = $value;
-                continue;
-            }
-            $this->_invalid += [$f => $value];
+        if ($overwrite === true) {
+            $this->_invalid[$field] = $value;
+        } else {
+            $this->_invalid += [$field => $value];
         }
 
         return $this;

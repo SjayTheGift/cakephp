@@ -134,7 +134,7 @@ class RuleInvoker
 
         if ($entity instanceof InvalidPropertyInterface && isset($entity->{$errorField})) {
             $invalidValue = $entity->{$errorField};
-            $entity->setInvalid($errorField, $invalidValue);
+            $entity->setInvalidField($errorField, $invalidValue);
         }
 
         return $pass === true;

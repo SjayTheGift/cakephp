@@ -186,7 +186,7 @@ class Marshaller
         foreach ($data as $key => $value) {
             if (!empty($errors[$key])) {
                 if ($entity instanceof InvalidPropertyInterface) {
-                    $entity->setInvalid($key, $value);
+                    $entity->setInvalidField($key, $value);
                 }
                 continue;
             }
@@ -550,7 +550,7 @@ class Marshaller
         foreach ($data as $key => $value) {
             if (!empty($errors[$key])) {
                 if ($entity instanceof InvalidPropertyInterface) {
-                    $entity->setInvalid($key, $value);
+                    $entity->setInvalidField($key, $value);
                 }
                 continue;
             }
