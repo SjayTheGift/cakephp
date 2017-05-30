@@ -1066,11 +1066,16 @@ trait EntityTrait
      * or to be able to log it away.
      *
      * @param array $fields The values to set.
+     * @param bool $overwrite Whether or not to overwrite pre-existing values for $field.
      * @return $this
      */
-    public function setInvalid(array $fields)
+    public function setInvalid(array $fields, $overwrite = false)
     {
         foreach ($fields as $field => $value) {
+            if ($overwrite) {
+                $this->_invalid[$field] = $value;
+                continue;
+            }
             $this->_invalid += [$field => $value];
         }
 
@@ -1090,7 +1095,7 @@ trait EntityTrait
      */
     public function setInvalidField($field, $value)
     {
-        $this->_invalid += [$field => $value];
+        $this->_invalid[$field] = $value;
 
         return $this;
     }

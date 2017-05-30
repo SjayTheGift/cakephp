@@ -1591,6 +1591,16 @@ class EntityTest extends TestCase
             'title' => 'albert',
             'body' => 'einstein'
         ], $entity->getInvalid());
+
+        $overwrite = $entity->setInvalid([
+            'title' => 'nikola',
+            'body' => 'tesla'
+        ], true);
+        $this->assertSame($entity, $overwrite);
+        $this->assertSame([
+            'title' => 'nikola',
+            'body' => 'tesla'
+        ], $entity->getInvalid());
     }
 
     /**
@@ -1604,6 +1614,10 @@ class EntityTest extends TestCase
         $return = $entity->setInvalidField('title', 'albert');
         $this->assertSame($entity, $return);
         $this->assertSame('albert', $entity->getInvalidField('title'));
+
+        $overwrite = $entity->setInvalidField('title', 'nikola');
+        $this->assertSame($entity, $overwrite);
+        $this->assertSame('nikola', $entity->getInvalidField('title'));
     }
 
     /**
